@@ -126,11 +126,18 @@
 						<configuration>
 							<inputSpec>${project.basedir}/src/main/resources/service-customer.yaml</inputSpec>
 							<generatorName>spring</generatorName>
-							<apiPackage>com.bootcamp.service_customer.api</apiPackage>
-							<modelPackage>com.bootcamp.service_customer.model</modelPackage>
 							<supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>
 							<configOptions>
+								<library>spring-boot</library>
+								<userSpringBoot3>true</userSpringBoot3>
+								<reactive>true</reactive>
+								<useTags>true</useTags>
+								<useResponseEntity>false</useResponseEntity>
 								<delegatePattern>true</delegatePattern>
+								<serializableModel>true</serializableModel>
+								<basePackage>${project.groupId}</basePackage>
+								<apiPackage>${project.groupId}.api</apiPackage>
+								<modelPackage>${project.groupId}.dto</modelPackage>
 							</configOptions>
 						</configuration>
 					</execution>
