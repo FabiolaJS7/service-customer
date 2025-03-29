@@ -4,6 +4,7 @@ import com.bootcamp.service_customer.constants.StatusConstants;
 import com.bootcamp.service_customer.mapper.CustomerMapper;
 import com.bootcamp.service_customer.model.CustomerRequest;
 import com.bootcamp.service_customer.model.CustomerResponse;
+import com.bootcamp.service_customer.model.entity.Customer;
 import com.bootcamp.service_customer.repository.CustomerRepository;
 import com.bootcamp.service_customer.service.CustomerService;
 import lombok.AllArgsConstructor;
@@ -22,7 +23,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Flux<CustomerResponse> getCustomers() {
-        return customerRepository.findAll()
+        Flux<Customer> customerResponseFlux = customerRepository.findAll();
+        return customerResponseFlux
                 .map(customer -> customerMapper.getCustomerResponseOfCustomer(customer));
     }
 

@@ -12,11 +12,11 @@ public class CustomerMapper {
 
     public CustomerResponse getCustomerResponseOfCustomer(Customer customer) {
         CustomerResponse response = new CustomerResponse();
-        customer.setId(customer.getId());
-        customer.setName(customer.getName());
-        customer.setLastName(customer.getLastName());
-        customer.setEmail(customer.getEmail());
-        customer.setPhone(customer.getPhone());
+        response.setId(customer.getId());
+        response.setName(customer.getName());
+        response.setLastName(customer.getLastName());
+        response.setEmail(customer.getEmail());
+        response.setPhone(customer.getPhone());
         return response;
     }
 
