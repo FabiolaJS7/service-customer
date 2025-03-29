@@ -1,8 +1,9 @@
 package com.bootcamp.service_customer.mapper;
 
+import com.bootcamp.service_customer.model.CustomerRequest;
+import com.bootcamp.service_customer.model.CustomerResponse;
 import com.bootcamp.service_customer.model.entity.Customer;
-import com.bootcamp.servicecustomer.dto.CustomerRequest;
-import com.bootcamp.servicecustomer.dto.CustomerResponse;
+
 import org.springframework.stereotype.Component;
 
 

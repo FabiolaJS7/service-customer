@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.4.4</version>
+		<version>3.3.4</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.bootcamp.servicecustomer</groupId>
@@ -38,7 +38,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webflux</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -91,18 +90,6 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<annotationProcessorPaths>
-						<path>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-						</path>
-					</annotationProcessorPaths>
-				</configuration>
-			</plugin>
-			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
@@ -127,17 +114,11 @@
 							<inputSpec>${project.basedir}/src/main/resources/service-customer.yaml</inputSpec>
 							<generatorName>spring</generatorName>
 							<supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>
+							<apiPackage>com.bootcamp.service_customer.api</apiPackage>
+							<modelPackage>com.bootcamp.service_customer.model</modelPackage>
 							<configOptions>
-								<library>spring-boot</library>
-								<userSpringBoot3>true</userSpringBoot3>
 								<reactive>true</reactive>
-								<useTags>true</useTags>
-								<useResponseEntity>false</useResponseEntity>
 								<delegatePattern>true</delegatePattern>
-								<serializableModel>true</serializableModel>
-								<basePackage>${project.groupId}</basePackage>
-								<apiPackage>${project.groupId}.api</apiPackage>
-								<modelPackage>${project.groupId}.dto</modelPackage>
 							</configOptions>
 						</configuration>
 					</execution>

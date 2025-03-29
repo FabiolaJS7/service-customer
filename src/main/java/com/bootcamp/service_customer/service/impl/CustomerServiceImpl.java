@@ -2,10 +2,10 @@ package com.bootcamp.service_customer.service.impl;
 
 import com.bootcamp.service_customer.constants.StatusConstants;
 import com.bootcamp.service_customer.mapper.CustomerMapper;
+import com.bootcamp.service_customer.model.CustomerRequest;
+import com.bootcamp.service_customer.model.CustomerResponse;
 import com.bootcamp.service_customer.repository.CustomerRepository;
 import com.bootcamp.service_customer.service.CustomerService;
-import com.bootcamp.servicecustomer.dto.CustomerRequest;
-import com.bootcamp.servicecustomer.dto.CustomerResponse;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -27,29 +27,39 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Mono<CustomerResponse> createCustomer(CustomerRequest customerRequest) {
-        return customerRepository.save(customerMapper.getCustomerOfCustomerRequest(customerRequest))
-                .map(c -> customerMapper.getCustomerResponseOfCustomer(c));
+    public Mono<CustomerResponse> createCustomer(Mono<CustomerRequest> customerRequest) {
+        return customerRequest
+                .map(c -> customerMapper.getCustomerOfCustomerRequest(c))
+                .flatMap(customer -> customerRepository.save(customer))
+                .map(customer -> customerMapper.getCustomerResponseOfCustomer(customer));
     }
 
     @Override
-    public Mono<CustomerResponse> updateCustomer(CustomerRequest customerRequest) {
-        return customerRepository.findById(customerRequest.getId()).flatMap(c -> {
-                    c.setName(customerRequest.getName());
-                    c.setLastName(customerRequest.getLastName());
-                    c.setEmail(customerRequest.getEmail());
-                    c.setPhone(customerRequest.getPhone());
-                    return customerRepository.save(c);
-                })
-                .map(c -> customerMapper.getCustomerResponseOfCustomer(c));
+    public Mono<CustomerResponse> updateCustomer(Mono<CustomerRequest> customerRequest) {
+        return customerRequest
+                .flatMap(request -> customerRepository.findById(request.getId())
+                        .flatMap(customerFounded -> {
+                            customerFounded.setName(request.getName());
+                            customerFounded.setLastName(request.getLastName());
+                            customerFounded.setEmail(request.getEmail());
+                            customerFounded.setPhone(request.getPhone());
+                            customerFounded.setStatus(StatusConstants.ACTIVE);
+                            customerFounded.setType(request.getTypeClient());
+                            return customerRepository.save(customerFounded);
+                        })
+                )
+                .map(updatedCustomer -> customerMapper.getCustomerResponseOfCustomer(updatedCustomer));
+
     }
 
     @Override
-    public Mono<Boolean> deleteCustomer(CustomerRequest customerRequest) {
-        return customerRepository.findById(customerRequest.getId()).flatMap(c -> {
-                    c.setStatus(StatusConstants.INACTIVE);
-                    return customerRepository.save(c);
-                }).map(c -> customerMapper.getCustomerResponseOfCustomer(c))
+    public Mono<Boolean> deleteCustomer(Mono<CustomerRequest> customerRequest) {
+        return customerRequest
+                .flatMap(request -> customerRepository.findById(request.getId())
+                        .flatMap(customerFounded -> {
+                            customerFounded.setStatus(StatusConstants.INACTIVE);
+                            return customerRepository.save(customerFounded);
+                        }))
                 .hasElement();
     }
 }

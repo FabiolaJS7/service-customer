@@ -1,14 +1,18 @@
 package com.bootcamp.service_customer.model.entity;
 
 import com.bootcamp.service_customer.constants.StatusConstants;
-import lombok.Data;
+import lombok.*;
 import nonapi.io.github.classgraph.json.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
-@Data
-@Document(collation = "customers")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Document(collection = "customers")
 public class Customer {
 
     @Id
@@ -17,8 +21,7 @@ public class Customer {
     private String lastName;
     private String phone;
     private String email;
-    private String status = StatusConstants.ACTIVE;
-    private Date createdAt;
-    private Date updatedAt;
+    private String status;
+    private String type;
 
 }
