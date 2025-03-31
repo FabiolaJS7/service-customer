@@ -4,7 +4,6 @@ import com.bootcamp.service_customer.constants.StatusConstants;
 import lombok.*;
 import nonapi.io.github.classgraph.json.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
@@ -21,7 +20,8 @@ public class Customer {
     private String lastName;
     private String phone;
     private String email;
-    private String status;
-    private String type;
+    private String status = StatusConstants.ACTIVE;
+    private String typeClient;
+    private AuditData auditData;
 
 }

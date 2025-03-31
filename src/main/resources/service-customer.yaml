@@ -114,14 +114,9 @@ components:
         email:
           type: string
           description: email of client
-        createdAt:
+        createdBy:
           type: string
-          format: date
-          description: date of creation
-        updatedAt:
-          type: string
-          format: date
-          description: date of updated
+          description: user whom created customer
     CustomerResponse:
       type: object
       properties:

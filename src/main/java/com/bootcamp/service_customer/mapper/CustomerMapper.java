@@ -17,6 +17,7 @@ public class CustomerMapper {
         response.setLastName(customer.getLastName());
         response.setEmail(customer.getEmail());
         response.setPhone(customer.getPhone());
+        response.setTypeClient(customer.getTypeClient());
         return response;
     }
 
@@ -27,6 +28,7 @@ public class CustomerMapper {
         customer.setLastName(customerRequest.getLastName());
         customer.setEmail(customerRequest.getEmail());
         customer.setPhone(customerRequest.getPhone());
+        customer.setTypeClient(customerRequest.getTypeClient());
         return customer;
     }
 }

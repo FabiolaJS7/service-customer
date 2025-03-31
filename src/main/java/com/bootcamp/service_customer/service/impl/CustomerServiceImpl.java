@@ -7,6 +7,7 @@ import com.bootcamp.service_customer.model.CustomerResponse;
 import com.bootcamp.service_customer.model.entity.Customer;
 import com.bootcamp.service_customer.repository.CustomerRepository;
 import com.bootcamp.service_customer.service.CustomerService;
+import com.bootcamp.service_customer.util.AuditDataUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     CustomerRepository customerRepository;
     CustomerMapper customerMapper;
+    AuditDataUtil auditDataUtil;
 
     @Override
     public Flux<CustomerResponse> getCustomers() {
@@ -31,9 +33,11 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Mono<CustomerResponse> createCustomer(Mono<CustomerRequest> customerRequest) {
         return customerRequest
-                .map(c -> customerMapper.getCustomerOfCustomerRequest(c))
-                .flatMap(customer -> customerRepository.save(customer))
-                .map(customer -> customerMapper.getCustomerResponseOfCustomer(customer));
+                .flatMap(customerRq -> {
+                    Customer customer = customerMapper.getCustomerOfCustomerRequest(customerRq);
+                    customer.setAuditData(auditDataUtil.create(customerRq.getCreatedBy()));
+                    return customerRepository.save(customer);
+                }).map(customer -> customerMapper.getCustomerResponseOfCustomer(customer));
     }
 
     @Override
@@ -46,7 +50,7 @@ public class CustomerServiceImpl implements CustomerService {
                             customerFounded.setEmail(request.getEmail());
                             customerFounded.setPhone(request.getPhone());
                             customerFounded.setStatus(StatusConstants.ACTIVE);
-                            customerFounded.setType(request.getTypeClient());
+                            customerFounded.setTypeClient(request.getTypeClient());
                             return customerRepository.save(customerFounded);
                         })
                 )

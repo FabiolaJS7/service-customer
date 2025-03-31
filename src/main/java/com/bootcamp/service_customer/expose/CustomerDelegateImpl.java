@@ -1,6 +1,4 @@
-package com.bootcamp.service_customer;
-
-
+package com.bootcamp.service_customer.expose;
 
 import com.bootcamp.service_customer.api.ApiApiDelegate;
 import com.bootcamp.service_customer.model.CustomerRequest;
