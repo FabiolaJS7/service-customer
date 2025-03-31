@@ -22,6 +22,7 @@ public class Customer {
     private String email;
     private String status = StatusConstants.ACTIVE;
     private String typeClient;
+    private Identification identification;
     private AuditData auditData;
 
 }
