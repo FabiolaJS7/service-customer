@@ -59,14 +59,15 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Mono<Boolean> deleteCustomer(Mono<CustomerRequest> customerRequest) {
-        return customerRequest
-                .flatMap(request -> customerRepository.findById(request.getId())
-                        .flatMap(customerFounded -> {
-                            customerFounded.setStatus(StatusConstants.INACTIVE);
-                            return customerRepository.save(customerFounded);
-                        }))
-                .hasElement();
+    public Mono<Boolean> deleteCustomer(String customerId) {
+        return customerRepository.findById(customerId)
+                .flatMap(customerFounded ->  {
+                    customerFounded.setStatus(StatusConstants.INACTIVE);
+                    auditDataUtil.update(customerFounded.getAuditData(), customerFounded.getAuditData().getCreatedBy());
+                    return customerRepository.save(customerFounded);
+                })
+                .hasElement()
+                .switchIfEmpty(Mono.error(new RuntimeException("Customer not found")));
     }
 
     @Override

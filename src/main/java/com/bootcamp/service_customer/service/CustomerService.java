@@ -9,7 +9,7 @@ public interface CustomerService {
     Flux<CustomerResponse> getCustomers();
     Mono<CustomerResponse> createCustomer(Mono<CustomerRequest> customerRequest);
     Mono<CustomerResponse> updateCustomer(String customerId, Mono<CustomerRequest> customerRequest);
-    Mono<Boolean> deleteCustomer(Mono<CustomerRequest> customerRequest);
+    Mono<Boolean> deleteCustomer(String customerId);
     Mono<CustomerResponse> findCustomerById(String customerId);
 
 

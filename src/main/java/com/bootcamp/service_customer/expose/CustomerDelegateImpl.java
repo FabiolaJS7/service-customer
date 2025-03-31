@@ -7,11 +7,14 @@ import com.bootcamp.service_customer.service.CustomerService;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.Optional;
 
 @Component
 public class CustomerDelegateImpl implements ApiApiDelegate {
@@ -38,6 +41,18 @@ public class CustomerDelegateImpl implements ApiApiDelegate {
                                                          ServerWebExchange exchange) {
         return customerService.updateCustomer(customerId, customerRequest).map(ResponseEntity::ok)
                 .onErrorResume(e -> Mono.just(ResponseEntity.status(404).build()));
+    }
+
+    @Override
+    public Mono<ResponseEntity<Void>> delete(String customerId, ServerWebExchange exchange) {
+        return customerService.deleteCustomer(customerId)
+                .flatMap(deleted -> {
+                    if (deleted) {
+                        return Mono.just(ResponseEntity.ok().build());
+                    } else {
+                        return Mono.just(ResponseEntity.status(404).build());
+                    }
+                });
     }
 
 }
