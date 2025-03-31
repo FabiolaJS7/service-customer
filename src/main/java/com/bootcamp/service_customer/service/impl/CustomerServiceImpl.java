@@ -28,6 +28,7 @@ public class CustomerServiceImpl implements CustomerService {
     public Flux<CustomerResponse> getCustomers() {
         return customerRepository.findAll()
                 .doOnSubscribe(subscription -> log.info("Getting all customers from the database"))
+                .filter(customer -> StatusConstants.ACTIVE.equals(customer.getStatus()))
                 .map(customer -> customerMapper.getCustomerResponseOfCustomer(customer))
                 .doOnComplete(() -> log.info("Completed fetching and mapping all customers"))
                 .doOnError(e -> log.error("Error occurred while getting customers: {}", e.getMessage(), e));
@@ -52,7 +53,8 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Mono<CustomerResponse> updateCustomer(String customerId, Mono<CustomerRequest> customerRequest) {
         return customerRepository.findById(customerId)
-                .doOnNext(customerRq -> log.info("Received CustomerRequest."))
+                .doOnNext(customerRq -> log.info("Customer found: {}", JsonTransferUtil.objectToJson(customerRq)))
+                .filter(customer -> StatusConstants.ACTIVE.equals(customer.getStatus()))
                 .flatMap(customerFounded ->
                         customerRequest
                                 .flatMap(customerRq -> {
@@ -63,10 +65,9 @@ public class CustomerServiceImpl implements CustomerService {
                                     return customerRepository.save(customerFounded);
                                 })
                 )
-                .doOnSuccess(savedCustomer -> log.info("Customer updated successfully: {}", savedCustomer.getId()))
                 .map(updatedCustomer -> customerMapper.getCustomerResponseOfCustomer(updatedCustomer))
-                .doOnError(e -> log.error("Error occurred while updating customer with ID {}: {}", customerId, e.getMessage(), e))
-                .switchIfEmpty(Mono.error(new RuntimeException("Customer not found")));
+                .switchIfEmpty(Mono.just(new CustomerResponse()))
+                .doOnError(e -> log.error("Error occurred while updating customer with ID {}: {}", customerId, e.getMessage(), e));
     }
 
     @Override

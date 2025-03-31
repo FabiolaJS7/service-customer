@@ -8,7 +8,6 @@ import com.bootcamp.service_customer.service.CustomerService;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
@@ -44,8 +43,18 @@ public class CustomerDelegateImpl implements ApiApiDelegate {
     public Mono<ResponseEntity<CustomerResponse>> update(String customerId, Mono<CustomerRequest> customerRequest,
                                                          ServerWebExchange exchange) {
         log.info("-> Customer update");
-        return customerService.updateCustomer(customerId, customerRequest).map(ResponseEntity::ok)
-                .onErrorResume(e -> Mono.just(ResponseEntity.status(404).build()));
+        return customerService.updateCustomer(customerId, customerRequest)
+                .flatMap(customerResponse -> {
+                    if (customerResponse.getId() == null) {
+                        log.warn("Customer with ID {} not found", customerId);
+                        return Mono.just(ResponseEntity.status(404).body(new CustomerResponse()));
+                    }
+                    return Mono.just(ResponseEntity.ok(customerResponse));
+                })
+                .onErrorResume(e -> {
+                    log.error("Error occurred while updating customer with ID {}: {}", customerId, e.getMessage(), e);
+                    return Mono.just(ResponseEntity.status(500).body(null));
+                });
     }
 
     @Override
