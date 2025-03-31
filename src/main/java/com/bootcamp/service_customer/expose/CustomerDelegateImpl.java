@@ -21,12 +21,11 @@ public class CustomerDelegateImpl implements ApiApiDelegate {
 
 
     @Override
-    public Mono<ResponseEntity<CustomerResponse>> createCustomer(Mono<CustomerRequest> customerRequest, ServerWebExchange exchange) {
+    public Mono<ResponseEntity<CustomerResponse>> createCustomer(Mono<CustomerRequest> customerRequest,
+                                                                 ServerWebExchange exchange) {
         return customerService.createCustomer(customerRequest)
                 .map(ResponseEntity::ok)
-                .onErrorResume(e -> {
-                    return Mono.just(ResponseEntity.status(500).build());
-                });
+                .onErrorResume(e -> Mono.just(ResponseEntity.status(404).build()));
     }
 
     @Override
@@ -34,5 +33,11 @@ public class CustomerDelegateImpl implements ApiApiDelegate {
         return Mono.just(ResponseEntity.ok(customerService.getCustomers()));
     }
 
+    @Override
+    public Mono<ResponseEntity<CustomerResponse>> update(String customerId, Mono<CustomerRequest> customerRequest,
+                                                         ServerWebExchange exchange) {
+        return customerService.updateCustomer(customerId, customerRequest).map(ResponseEntity::ok)
+                .onErrorResume(e -> Mono.just(ResponseEntity.status(404).build()));
+    }
 
 }

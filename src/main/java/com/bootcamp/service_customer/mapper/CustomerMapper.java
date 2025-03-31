@@ -44,4 +44,12 @@ public class CustomerMapper {
 
         return customer;
     }
+
+    public void getCustomerOfCustomerRequestToUpdate(Customer customerFounded, CustomerRequest customerRq) {
+        customerFounded.setName(customerRq.getName());
+        customerFounded.setLastName(customerRq.getLastName());
+        customerFounded.setEmail(customerRq.getEmail());
+        customerFounded.setPhone(customerRq.getPhone());
+        customerFounded.setTypeClient(customerRq.getTypeClient());
+    }
 }

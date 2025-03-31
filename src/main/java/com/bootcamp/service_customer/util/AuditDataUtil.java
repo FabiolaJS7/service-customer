@@ -15,4 +15,9 @@ public class AuditDataUtil {
         auditData.setCreatedBy(createdBy);
         return auditData;
     }
+
+    public void update(AuditData auditData, String createdBy) {
+        auditData.setUpdatedAt(new Date());
+        auditData.setUpdatedBy(createdBy);
+    }
 }

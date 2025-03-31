@@ -20,7 +20,7 @@ paths:
               $ref: "#/components/schemas/CustomerRequest"
       responses:
         '200':
-          description: Sussess create
+          description: Success create
           content:
             application/json:
               schema:
@@ -74,7 +74,11 @@ paths:
               $ref: "#/components/schemas/CustomerRequest"
       responses:
         '200':
-          description: Successful updated
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CustomerResponse"
         '404':
           description: Client not found to update
     delete:

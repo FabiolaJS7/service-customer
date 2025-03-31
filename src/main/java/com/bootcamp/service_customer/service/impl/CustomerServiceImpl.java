@@ -4,6 +4,7 @@ import com.bootcamp.service_customer.constants.StatusConstants;
 import com.bootcamp.service_customer.mapper.CustomerMapper;
 import com.bootcamp.service_customer.model.CustomerRequest;
 import com.bootcamp.service_customer.model.CustomerResponse;
+import com.bootcamp.service_customer.model.entity.AuditData;
 import com.bootcamp.service_customer.model.entity.Customer;
 import com.bootcamp.service_customer.repository.CustomerRepository;
 import com.bootcamp.service_customer.service.CustomerService;
@@ -13,6 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.Date;
 
 @Service
 @AllArgsConstructor
@@ -41,21 +44,18 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Mono<CustomerResponse> updateCustomer(Mono<CustomerRequest> customerRequest) {
-        return customerRequest
-                .flatMap(request -> customerRepository.findById(request.getId())
-                        .flatMap(customerFounded -> {
-                            customerFounded.setName(request.getName());
-                            customerFounded.setLastName(request.getLastName());
-                            customerFounded.setEmail(request.getEmail());
-                            customerFounded.setPhone(request.getPhone());
-                            customerFounded.setStatus(StatusConstants.ACTIVE);
-                            customerFounded.setTypeClient(request.getTypeClient());
-                            return customerRepository.save(customerFounded);
-                        })
+    public Mono<CustomerResponse> updateCustomer(String customerId, Mono<CustomerRequest> customerRequest) {
+        return customerRepository.findById(customerId)
+                .flatMap(customerFounded ->
+                        customerRequest
+                                .flatMap(customerRq -> {
+                                    customerMapper.getCustomerOfCustomerRequestToUpdate(customerFounded, customerRq);
+                                    auditDataUtil.update(customerFounded.getAuditData(), customerRq.getCreatedBy());
+                                    return customerRepository.save(customerFounded);
+                                })
                 )
-                .map(updatedCustomer -> customerMapper.getCustomerResponseOfCustomer(updatedCustomer));
-
+                .map(updatedCustomer -> customerMapper.getCustomerResponseOfCustomer(updatedCustomer))
+                .switchIfEmpty(Mono.error(new RuntimeException("Customer not found")));
     }
 
     @Override
@@ -67,5 +67,11 @@ public class CustomerServiceImpl implements CustomerService {
                             return customerRepository.save(customerFounded);
                         }))
                 .hasElement();
+    }
+
+    @Override
+    public Mono<CustomerResponse> findCustomerById(String customerId) {
+        return customerRepository.findById(customerId)
+                .map(customer -> customerMapper.getCustomerResponseOfCustomer(customer));
     }
 }
