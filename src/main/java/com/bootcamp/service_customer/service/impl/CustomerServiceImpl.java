@@ -22,7 +22,6 @@ public class CustomerServiceImpl implements CustomerService {
 
     CustomerRepository customerRepository;
     CustomerMapper customerMapper;
-    AuditDataUtil auditDataUtil;
 
     @Override
     public Flux<CustomerResponse> getCustomers() {
@@ -41,7 +40,7 @@ public class CustomerServiceImpl implements CustomerService {
                 .flatMap(customerRq -> {
                     log.info("Mapping CustomerRequest to Customer entity");
                     Customer customer = customerMapper.getCustomerOfCustomerRequest(customerRq);
-                    customer.setAuditData(auditDataUtil.create(customerRq.getCreatedBy()));
+                    customer.setAuditData(AuditDataUtil.create(customerRq.getCreatedBy()));
                     log.info("Saving Customer entity");
                     return customerRepository.save(customer);
                 })
@@ -60,7 +59,7 @@ public class CustomerServiceImpl implements CustomerService {
                                 .flatMap(customerRq -> {
                                     log.info("Setting information to update of CustomerRequest to Customer entity");
                                     customerMapper.getCustomerOfCustomerRequestToUpdate(customerFounded, customerRq);
-                                    auditDataUtil.update(customerFounded.getAuditData(), customerRq.getCreatedBy());
+                                    AuditDataUtil.update(customerFounded.getAuditData(), customerRq.getCreatedBy());
                                     log.info("Saving Customer entity: {}", customerRq);
                                     return customerRepository.save(customerFounded);
                                 })
@@ -76,7 +75,7 @@ public class CustomerServiceImpl implements CustomerService {
                 .doOnNext(customer -> log.info("Customer found with ID {}", customerId))
                 .flatMap(customerFounded ->  {
                     customerFounded.setStatus(StatusConstants.INACTIVE);
-                    auditDataUtil.update(customerFounded.getAuditData(), customerFounded.getAuditData().getCreatedBy());
+                    AuditDataUtil.update(customerFounded.getAuditData(), customerFounded.getAuditData().getCreatedBy());
                     log.info("Deleting customer : {}", JsonTransferUtil.objectToJson(customerFounded));
                     return customerRepository.save(customerFounded);
                 })
