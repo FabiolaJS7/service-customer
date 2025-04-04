@@ -2,9 +2,9 @@ package com.bootcamp.service_customer.mapper;
 
 import com.bootcamp.service_customer.model.CustomerRequest;
 import com.bootcamp.service_customer.model.CustomerResponse;
-import com.bootcamp.service_customer.model.entity.Customer;
+import com.bootcamp.service_customer.model.Customer;
 
-import com.bootcamp.service_customer.model.entity.Identification;
+import com.bootcamp.service_customer.model.Identification;
 import org.springframework.stereotype.Component;
 
 
@@ -20,10 +20,10 @@ public class CustomerMapper {
         response.setPhone(customer.getPhone());
         response.setTypeClient(customer.getTypeClient());
 
-        if (customer.getIdentification() != null) {
-            response.setIdentificationType(customer.getIdentification().getType());
-            response.setNumIdentification(customer.getIdentification().getValue());
-        }
+    //    if (customer.getIdentification() != null) {
+    //        response.setIdentificationType(customer.getIdentification().getType());
+     //       response.setNumIdentification(customer.getIdentification().getValue());
+      //  }
 
         return response;
     }
@@ -40,7 +40,7 @@ public class CustomerMapper {
         Identification identification = new Identification();
         identification.setType(customerRequest.getIdentificationType());
         identification.setValue(customerRequest.getNumIdentification());
-        customer.setIdentification(identification);
+    //    customer.setIdentification(identification);
 
         return customer;
     }

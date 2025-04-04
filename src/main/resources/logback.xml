@@ -12,7 +12,7 @@
             service-customer.log
         </file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>service-customer-%d{yyyy-MM-dd_HH-mm}.%i.log</fileNamePattern>
+            <fileNamePattern>service-customer-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <maxFileSize>500MB</maxFileSize>
             <maxHistory>500</maxHistory>
         </rollingPolicy>
