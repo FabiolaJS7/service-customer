@@ -1,8 +1,11 @@
 package com.bootcamp.service_customer.model;
 
 import com.bootcamp.service_customer.constants.StatusConstants;
-import lombok.*;
-import nonapi.io.github.classgraph.json.Id;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter

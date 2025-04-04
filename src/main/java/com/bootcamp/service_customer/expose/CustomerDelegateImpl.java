@@ -6,6 +6,7 @@ import com.bootcamp.service_customer.model.CustomerResponse;
 import com.bootcamp.service_customer.service.CustomerService;
 
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,13 +15,11 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.Optional;
-
 @Component
 @Slf4j
+@AllArgsConstructor
 public class CustomerDelegateImpl implements ApiApiDelegate {
 
-    @Autowired
     CustomerService customerService;
 
 
@@ -62,7 +61,7 @@ public class CustomerDelegateImpl implements ApiApiDelegate {
         log.info("-> Customer delete");
         return customerService.deleteCustomer(customerId)
                 .flatMap(deleted -> {
-                    if (deleted) {
+                    if (Boolean.TRUE.equals(deleted)) {
                         return Mono.just(ResponseEntity.ok().build());
                     } else {
                         return Mono.just(ResponseEntity.status(404).build());
