@@ -1,6 +1,6 @@
 package com.bootcamp.service_customer.util;
 
-import com.bootcamp.service_customer.model.entity.AuditData;
+import com.bootcamp.service_customer.model.AuditData;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;

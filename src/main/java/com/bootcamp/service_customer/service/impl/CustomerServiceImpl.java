@@ -1,10 +1,11 @@
 package com.bootcamp.service_customer.service.impl;
 
 import com.bootcamp.service_customer.constants.StatusConstants;
-import com.bootcamp.service_customer.mapper.CustomerMapper;
+import com.bootcamp.service_customer.transfer.CustomerTransfer;
+import com.bootcamp.service_customer.mapper.CustomerMapperStruct;
 import com.bootcamp.service_customer.model.CustomerRequest;
 import com.bootcamp.service_customer.model.CustomerResponse;
-import com.bootcamp.service_customer.model.entity.Customer;
+import com.bootcamp.service_customer.model.Customer;
 import com.bootcamp.service_customer.repository.CustomerRepository;
 import com.bootcamp.service_customer.service.CustomerService;
 import com.bootcamp.service_customer.util.AuditDataUtil;
@@ -21,14 +22,14 @@ import reactor.core.publisher.Mono;
 public class CustomerServiceImpl implements CustomerService {
 
     CustomerRepository customerRepository;
-    CustomerMapper customerMapper;
+    CustomerTransfer customerTransfer;
 
     @Override
     public Flux<CustomerResponse> getCustomers() {
         return customerRepository.findAll()
                 .doOnSubscribe(subscription -> log.info("Getting all customers from the database"))
                 .filter(customer -> StatusConstants.ACTIVE.equals(customer.getStatus()))
-                .map(customer -> customerMapper.getCustomerResponseOfCustomer(customer))
+                .map(CustomerMapperStruct.INSTANCE::toCustomerResponseOfCustomer)
                 .doOnComplete(() -> log.info("Completed fetching and mapping all customers"))
                 .doOnError(e -> log.error("Error occurred while getting customers: {}", e.getMessage(), e));
     }
@@ -39,13 +40,13 @@ public class CustomerServiceImpl implements CustomerService {
                 .doOnNext(customerRq -> log.info("Received CustomerRequest: {}", customerRq))
                 .flatMap(customerRq -> {
                     log.info("Mapping CustomerRequest to Customer entity");
-                    Customer customer = customerMapper.getCustomerOfCustomerRequest(customerRq);
+                    Customer customer = CustomerMapperStruct.INSTANCE.toCustomerOfCustomerRequest(customerRq);
                     customer.setAuditData(AuditDataUtil.create(customerRq.getCreatedBy()));
                     log.info("Saving Customer entity");
                     return customerRepository.save(customer);
                 })
                 .doOnSuccess(savedCustomer -> log.info("Customer saved successfully: {}", savedCustomer.getId()))
-                .map(customer -> customerMapper.getCustomerResponseOfCustomer(customer))
+                .map(CustomerMapperStruct.INSTANCE::toCustomerResponseOfCustomer)
                 .doOnError(e -> log.error("Error occurred while creating customer", e));
     }
 
@@ -58,13 +59,13 @@ public class CustomerServiceImpl implements CustomerService {
                         customerRequest
                                 .flatMap(customerRq -> {
                                     log.info("Setting information to update of CustomerRequest to Customer entity");
-                                    customerMapper.getCustomerOfCustomerRequestToUpdate(customerFounded, customerRq);
+                                    customerTransfer.getCustomerOfCustomerRequestToUpdate(customerFounded, customerRq);
                                     AuditDataUtil.update(customerFounded.getAuditData(), customerRq.getCreatedBy());
                                     log.info("Saving Customer entity: {}", customerRq);
                                     return customerRepository.save(customerFounded);
                                 })
                 )
-                .map(updatedCustomer -> customerMapper.getCustomerResponseOfCustomer(updatedCustomer))
+                .map(CustomerMapperStruct.INSTANCE::toCustomerResponseOfCustomer)
                 .switchIfEmpty(Mono.just(new CustomerResponse()))
                 .doOnError(e -> log.error("Error occurred while updating customer with ID {}: {}", customerId, e.getMessage(), e));
     }
@@ -95,6 +96,6 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Mono<CustomerResponse> findCustomerById(String customerId) {
         return customerRepository.findById(customerId)
-                .map(customer -> customerMapper.getCustomerResponseOfCustomer(customer));
+                .map(CustomerMapperStruct.INSTANCE::toCustomerResponseOfCustomer);
     }
 }

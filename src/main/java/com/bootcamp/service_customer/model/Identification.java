@@ -1,4 +1,4 @@
-package com.bootcamp.service_customer.model.entity;
+package com.bootcamp.service_customer.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

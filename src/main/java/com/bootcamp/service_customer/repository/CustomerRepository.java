@@ -1,6 +1,6 @@
 package com.bootcamp.service_customer.repository;
 
-import com.bootcamp.service_customer.model.entity.Customer;
+import com.bootcamp.service_customer.model.Customer;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.stereotype.Repository;
 
