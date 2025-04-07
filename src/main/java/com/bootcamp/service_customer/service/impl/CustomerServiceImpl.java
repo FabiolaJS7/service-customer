@@ -94,8 +94,13 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Mono<CustomerResponse> findCustomerById(String customerId) {
+    public Mono<CustomerResponse> getCustomerById(String customerId) {
         return customerRepository.findById(customerId)
-                .map(CustomerMapperStruct.INSTANCE::toCustomerResponseOfCustomer);
+                .doOnSubscribe(subscription -> log.info("Getting customer by id {}", customerId))
+                .doOnSuccess(customer ->log.info("Success customer by id {}", JsonTransferUtil.objectToJson(customer)))
+                .map(CustomerMapperStruct.INSTANCE::toCustomerResponseOfCustomer)
+                .doOnError(e -> log.error("Error occurred while getting customer by id {}", customerId, e))
+                .switchIfEmpty(Mono.just(new CustomerResponse()));
     }
+
 }

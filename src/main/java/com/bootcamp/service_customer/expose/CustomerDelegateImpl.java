@@ -8,7 +8,7 @@ import com.bootcamp.service_customer.service.CustomerService;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
@@ -67,6 +67,14 @@ public class CustomerDelegateImpl implements ApiApiDelegate {
                         return Mono.just(ResponseEntity.status(404).build());
                     }
                 });
+    }
+
+    @Override
+    public Mono<ResponseEntity<CustomerResponse>> getById(String customerId, ServerWebExchange exchange) {
+        log.info("-> Customer findById");
+        return customerService.getCustomerById(customerId)
+                .map(ResponseEntity::ok)
+                .onErrorResume(e -> Mono.just(new ResponseEntity<>(HttpStatus.NOT_FOUND)));
     }
 
 }
