@@ -19,10 +19,10 @@ public class Customer {
     private String id;
     private String name;
     private String lastName;
+    private String typeClient;
     private String phone;
     private String email;
     private String status = StatusConstants.ACTIVE;
-    private String typeClient;
     private Identification identification;
     private AuditData auditData;
 

@@ -64,7 +64,7 @@ public class CustomerDelegateImpl implements ApiApiDelegate {
                     if (Boolean.TRUE.equals(deleted)) {
                         return Mono.just(ResponseEntity.ok().build());
                     } else {
-                        return Mono.just(ResponseEntity.status(404).build());
+                        return Mono.just(new ResponseEntity<>(HttpStatus.NOT_FOUND));
                     }
                 });
     }
