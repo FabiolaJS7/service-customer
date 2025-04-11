@@ -37,17 +37,18 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Mono<CustomerResponse> createCustomer(Mono<CustomerRequest> customerRequest) {
         return customerRequest
-                .doOnNext(customerRq -> log.info("Received CustomerRequest: {}", customerRq))
+                .doOnNext(customerRq -> log.debug("Received CustomerRequest: {}", customerRq))
                 .flatMap(customerRq -> {
-                    log.info("Mapping CustomerRequest to Customer entity");
+                    log.info("Mapping CustomerRequest to Customer entity.");
                     Customer customer = CustomerMapperStruct.INSTANCE.toCustomerOfCustomerRequest(customerRq);
                     customer.setAuditData(AuditDataUtil.create(customerRq.getCreatedBy()));
-                    log.info("Saving Customer entity");
+                    log.info("Saving Customer entity.");
                     return customerRepository.save(customer);
                 })
-                .doOnSuccess(savedCustomer -> log.info("Customer saved successfully: {}", savedCustomer.getId()))
+                .doOnSuccess(savedCustomer -> log.debug("Customer saved successfully with id: {}.",
+                        savedCustomer.getId()))
                 .map(CustomerMapperStruct.INSTANCE::toCustomerResponseOfCustomer)
-                .doOnError(e -> log.error("Error occurred while creating customer", e));
+                .doOnError(e -> log.error("Error occurred while creating customer {}", e.getMessage()));
     }
 
     @Override
@@ -58,7 +59,7 @@ public class CustomerServiceImpl implements CustomerService {
                 .flatMap(customerFounded ->
                         customerRequest
                                 .flatMap(customerRq -> {
-                                    log.info("Setting information to update of CustomerRequest to Customer entity");
+                                    log.info("Setting information to update of CustomerRequest to Customer entity.");
                                     customerTransfer.getCustomerOfCustomerRequestToUpdate(customerFounded, customerRq);
                                     AuditDataUtil.update(customerFounded.getAuditData(), customerRq.getCreatedBy());
                                     log.info("Saving Customer entity: {}", customerRq);
@@ -67,7 +68,8 @@ public class CustomerServiceImpl implements CustomerService {
                 )
                 .map(CustomerMapperStruct.INSTANCE::toCustomerResponseOfCustomer)
                 .switchIfEmpty(Mono.just(new CustomerResponse()))
-                .doOnError(e -> log.error("Error occurred while updating customer with ID {}: {}", customerId, e.getMessage(), e));
+                .doOnError(e -> log.error("Error occurred while updating customer with ID {}: {}", customerId,
+                        e.getMessage(), e));
     }
 
     @Override

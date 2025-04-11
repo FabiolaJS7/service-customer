@@ -26,10 +26,10 @@ public class CustomerDelegateImpl implements ApiApiDelegate {
     @Override
     public Mono<ResponseEntity<CustomerResponse>> createCustomer(Mono<CustomerRequest> customerRequest,
                                                                  ServerWebExchange exchange) {
-        log.info("Customer create");
+        log.info("-> Init create customer");
         return customerService.createCustomer(customerRequest)
                 .map(ResponseEntity::ok)
-                .onErrorResume(e -> Mono.just(ResponseEntity.status(404).build()));
+                .onErrorResume(e -> Mono.just(new ResponseEntity<>(HttpStatus.BAD_REQUEST)));
     }
 
     @Override
