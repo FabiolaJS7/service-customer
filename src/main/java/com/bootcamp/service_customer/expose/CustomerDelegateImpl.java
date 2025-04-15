@@ -29,6 +29,7 @@ public class CustomerDelegateImpl implements ApiApiDelegate {
         log.info("-> Init create customer");
         return customerService.createCustomer(customerRequest)
                 .map(ResponseEntity::ok)
+                .doOnSubscribe(subscription -> log.info("End create customer"))
                 .onErrorResume(e -> Mono.just(new ResponseEntity<>(HttpStatus.BAD_REQUEST)));
     }
 
@@ -71,9 +72,10 @@ public class CustomerDelegateImpl implements ApiApiDelegate {
 
     @Override
     public Mono<ResponseEntity<CustomerResponse>> getById(String customerId, ServerWebExchange exchange) {
-        log.info("-> Customer findById");
+        log.info("-> Init customer by Id");
         return customerService.getCustomerById(customerId)
                 .map(ResponseEntity::ok)
+                .doOnSubscribe(subscription -> log.info("End customer by Id"))
                 .onErrorResume(e -> Mono.just(new ResponseEntity<>(HttpStatus.NOT_FOUND)));
     }
 
