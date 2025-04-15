@@ -57,7 +57,7 @@
   "phone": "985988565",
   "email": "gracia@mail.com",
   "status": "ACTIVE",
-  "typeClient": "P",
+  "typeClient": "M",
   "identification": {
     "type": "DNI",
     "value": "45859633"
@@ -82,7 +82,7 @@
   "phone": "9874563214",
   "email": "javier@mail.com",
   "status": "ACTIVE",
-  "typeClient": "P",
+  "typeClient": "V",
   "identification": {
     "type": "DNI",
     "value": "47779633"
@@ -97,4 +97,79 @@
     "createdBy": "admin@bank.com"
   },
   "_class": "com.bootcamp.service_customer.model.entity.Customer"
+},
+{
+  "_id": {
+    "$oid": "67f7300491332d7f1104d11e"
+  },
+  "name": "ANA",
+  "lastName": "PEREZ VELGARA",
+  "typeClient": "P",
+  "phone": "989856989",
+  "email": "ANAPEREZ@MAIL.COM",
+  "status": "ACTIVE",
+  "identification": {
+    "type": "DNI",
+    "value": "45987899"
+  },
+  "auditData": {
+    "createdAt": {
+      "$date": "2025-04-10T02:42:12.520Z"
+    },
+    "updatedAt": {
+      "$date": "2025-04-10T02:42:12.520Z"
+    },
+    "createdBy": "ADMIN@BANK.COM"
+  },
+  "_class": "com.bootcamp.service_customer.model.Customer"
+},
+{
+  "_id": {
+    "$oid": "67f74d33fe978b086f7e9fcd"
+  },
+  "name": "BEATRIZ",
+  "lastName": "LUNA GARCIA",
+  "typeClient": "V",
+  "phone": "989985656",
+  "email": "beatriz@MAIL.COM",
+  "status": "ACTIVE",
+  "identification": {
+    "type": "DNI",
+    "value": "45977799"
+  },
+  "auditData": {
+    "createdAt": {
+      "$date": "2025-04-10T04:46:43.437Z"
+    },
+    "updatedAt": {
+      "$date": "2025-04-10T04:46:43.437Z"
+    },
+    "createdBy": "admin@bank.com"
+  },
+  "_class": "com.bootcamp.service_customer.model.Customer"
+},
+{
+  "_id": {
+    "$oid": "67f97bbf2babc847278b2531"
+  },
+  "name": "CARLA",
+  "lastName": "GARCIA",
+  "typeClient": "M",
+  "phone": "98998577",
+  "email": "carla@MAIL.COM",
+  "status": "ACTIVE",
+  "identification": {
+    "type": "RUC",
+    "value": "10459777998"
+  },
+  "auditData": {
+    "createdAt": {
+      "$date": "2025-04-11T20:29:51.434Z"
+    },
+    "updatedAt": {
+      "$date": "2025-04-11T20:29:51.434Z"
+    },
+    "createdBy": "admin@bank.com"
+  },
+  "_class": "com.bootcamp.service_customer.model.Customer"
 }]
