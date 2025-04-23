@@ -172,4 +172,179 @@
     "createdBy": "admin@bank.com"
   },
   "_class": "com.bootcamp.service_customer.model.Customer"
+},
+{
+  "_id": {
+    "$oid": "68095812a329623ef90db25b"
+  },
+  "name": "ANA",
+  "lastName": "PEREZ VELGARA",
+  "typeClient": "P",
+  "phone": "989856989",
+  "email": "ANAPEREZ@MAIL.COM",
+  "status": "ACTIVE",
+  "identification": {
+    "type": "DNI",
+    "value": "45987899"
+  },
+  "auditData": {
+    "createdAt": {
+      "$date": "2025-04-23T21:13:54.402Z"
+    },
+    "updatedAt": {
+      "$date": "2025-04-23T21:13:54.402Z"
+    },
+    "createdBy": "ADMIN@BANK.COM"
+  },
+  "_class": "com.bootcamp.service_customer.model.Customer"
+},
+{
+  "_id": {
+    "$oid": "680958c8a329623ef90db25c"
+  },
+  "name": "ANA",
+  "lastName": "PEREZ VELGARA",
+  "typeClient": "P",
+  "phone": "989856989",
+  "email": "ANAPEREZ@MAIL.COM",
+  "status": "ACTIVE",
+  "identification": {
+    "type": "DNI",
+    "value": "45987899"
+  },
+  "auditData": {
+    "createdAt": {
+      "$date": "2025-04-23T21:16:56.320Z"
+    },
+    "updatedAt": {
+      "$date": "2025-04-23T21:16:56.320Z"
+    },
+    "createdBy": "ADMIN@BANK.COM"
+  },
+  "_class": "com.bootcamp.service_customer.model.Customer"
+},
+{
+  "_id": {
+    "$oid": "6809590ca329623ef90db25d"
+  },
+  "name": "CARLA",
+  "lastName": "GARCIA",
+  "typeClient": "M",
+  "phone": "98998577",
+  "email": "carla@MAIL.COM",
+  "status": "ACTIVE",
+  "identification": {
+    "type": "RUC",
+    "value": "10459777498"
+  },
+  "auditData": {
+    "createdAt": {
+      "$date": "2025-04-23T21:18:04.821Z"
+    },
+    "updatedAt": {
+      "$date": "2025-04-23T21:18:04.821Z"
+    },
+    "createdBy": "admin@bank.com"
+  },
+  "_class": "com.bootcamp.service_customer.model.Customer"
+},
+{
+  "_id": {
+    "$oid": "680959afa329623ef90db25e"
+  },
+  "name": "GRACIA",
+  "lastName": "HINOSTROZA",
+  "typeClient": "B",
+  "phone": "98995577",
+  "email": "gracia@MAIL.COM",
+  "status": "ACTIVE",
+  "identification": {
+    "type": "RUC",
+    "value": "20459177498"
+  },
+  "auditData": {
+    "createdAt": {
+      "$date": "2025-04-23T21:20:47.296Z"
+    },
+    "updatedAt": {
+      "$date": "2025-04-23T21:20:47.296Z"
+    },
+    "createdBy": "admin@bank.com"
+  },
+  "_class": "com.bootcamp.service_customer.model.Customer"
+},
+{
+  "_id": {
+    "$oid": "680964b7fd86f5058e7d5dd8"
+  },
+  "name": "ALICIA",
+  "lastName": "QUEVEDO",
+  "typeClient": "P",
+  "phone": "98995577",
+  "email": "gracia@MAIL.COM",
+  "status": "ACTIVE",
+  "identification": {
+    "type": "DNI",
+    "value": "45345677"
+  },
+  "auditData": {
+    "createdAt": {
+      "$date": "2025-04-23T22:07:51.920Z"
+    },
+    "updatedAt": {
+      "$date": "2025-04-23T22:07:51.920Z"
+    },
+    "createdBy": "admin@bank.com"
+  },
+  "_class": "com.bootcamp.service_customer.model.Customer"
+},
+{
+  "_id": {
+    "$oid": "68096bf1fd86f5058e7d5dd9"
+  },
+  "name": "ALICIA",
+  "lastName": "QUEVEDO",
+  "typeClient": "P",
+  "phone": "98995577",
+  "email": "gracia@MAIL.COM",
+  "status": "ACTIVE",
+  "identification": {
+    "type": "DNI",
+    "value": "45345677"
+  },
+  "auditData": {
+    "createdAt": {
+      "$date": "2025-04-23T22:38:41.286Z"
+    },
+    "updatedAt": {
+      "$date": "2025-04-23T22:38:41.286Z"
+    },
+    "createdBy": "admin@bank.com"
+  },
+  "_class": "com.bootcamp.service_customer.model.Customer"
+},
+{
+  "_id": {
+    "$oid": "6809708cfd86f5058e7d5dda"
+  },
+  "name": "CARLA",
+  "lastName": "GARCIA",
+  "typeClient": "M",
+  "phone": "98998577",
+  "email": "carla@MAIL.COM",
+  "status": "ACTIVE",
+  "identification": {
+    "type": "RUC",
+    "value": "10459777998"
+  },
+  "auditData": {
+    "createdAt": {
+      "$date": "2025-04-23T22:58:20.754Z"
+    },
+    "updatedAt": {
+      "$date": "2025-04-23T22:58:20.754Z"
+    },
+    "createdBy": "admin@bank.com"
+  },
+  "_class": "com.bootcamp.service_customer.model.Customer"
 }]
