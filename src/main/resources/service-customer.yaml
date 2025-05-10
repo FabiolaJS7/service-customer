@@ -1,0 +1,157 @@
+openapi: "3.0.1"
+info:
+  title: Customer service API
+  description: API to managment customers of bank.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8181
+    description: local server
+paths:
+  /api/customers:
+    post:
+      summary: Create new customer of bank.
+      operationId: createCustomer
+      requestBody:
+        description: Details to create new customer of bank.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CustomerRequest"
+      responses:
+        '200':
+          description: Success create
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CustomerResponse"
+    get:
+      summary: Retrieve a list of customers
+      operationId: findAll
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CustomerResponse"
+  /api/customers/{customerId}:
+    get:
+      summary: Get customer by id.
+      operationId: getById
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CustomerResponse"
+        '404':
+          description: Customer not found
+    put:
+      summary: Update information of customer.
+      operationId: update
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Details to updated customer.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CustomerRequest"
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CustomerResponse"
+        '404':
+          description: Client not found to update
+    delete:
+      summary: Delete customer.
+      operationId: delete
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful updated
+        '404':
+          description: Customer not found to update
+components:
+  schemas:
+    CustomerRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          description: unique ID
+        name:
+          type: string
+          description: Name of  user
+        lastName:
+          type: string
+          description: last name of  user
+        typeClient:
+          type: string
+          description: Type of client
+        phone:
+          type: string
+          description: telephone number of client
+        email:
+          type: string
+          description: email of client
+        createdBy:
+          type: string
+          description: user whom created customer
+        identificationType:
+          type: string
+          description: indicate type of identification
+        numIdentification:
+          type: string
+          description: Type of identification
+
+    CustomerResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          description: unique ID
+        name:
+          type: string
+          description: Name of  user
+        lastName:
+          type: string
+          description: last name of  user
+        typeClient:
+          type: string
+          description: Type of client
+        phone:
+          type: string
+          description: telephone number of client
+        email:
+          type: string
+          description: email of client
+        identificationType:
+          type: string
+          description: indicate type of identification
+        numIdentification:
+          type: string
+          description: Type of identification
